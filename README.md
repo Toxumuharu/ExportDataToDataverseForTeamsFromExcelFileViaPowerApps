@@ -1,0 +1,2 @@
+# ExportDataToDataverseForTeamsFromExcelFileViaPowerApps
+エクセルのテーブルをDataverse for Teams へアップロードする Power Apps アプリケーションの作成方法
