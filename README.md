@@ -26,7 +26,7 @@ Power Apps の知見がなくとも実装出来るようスクリーンショッ
 
 > Power Automate のフローを設定する際、どこからどこまでのデータを Dataverse for Teams へ追加するかを指定するためにテーブルを設定します。
 
-今回は `TableTemplateForDataverseForTeams.xlsx` としました。
+ファイル名は `TableTemplateForDataverseForTeams.xlsx` としました。
 
 作成したファイル内に、データを含む表を作成します。出張を想定して以下の項目としました。
 - Title
