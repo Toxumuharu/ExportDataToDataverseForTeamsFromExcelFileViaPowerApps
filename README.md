@@ -37,7 +37,7 @@ Power Apps の知見がなくとも実装出来るようスクリーンショッ
 
 ![出張データ](Images/01.png)
 
-元データができたので、これをテーブルにします。「ホーム」タブの「テーブルとして書式設定」から選択します。今回は Excel Online を使用しています。
+元データができたので、これをテーブルにします。データを選択した後、「ホーム」タブの「テーブルとして書式設定」を選択する事でデータをテーブルに指定します。
 
 ![テーブルにするやつ](Images/02.png)
 
@@ -187,10 +187,52 @@ Datauri 型のデータを取り出すために媒介とする画像コントロ
 
 ## 3. [Power Automate] Datauri 型のデータをエクセル ファイルへ復元、テーブルを取得 - WIP
 
-<!-- ![Dataverse name](Images/39.png)
 
+上記 2. にて添付したファイルを Power Automate により処理するため、Teams の Power Apps タブ (タブがない場合は検索) より New -> Cloud flow -> Instant よりクラウド フローを作成します。
 
+![Dataverse name](Images/39.png)
 
+トリガー として 「Power Apps」を選択すると、Power Automate のフローの作成画面となります。
+
+![Dataverse name](Images/40.png)
+![Dataverse name](Images/41.png)
+
+今回は Dataverse for Teams へテーブル内のデータを追加する事がゴールではありますが、一度 Power Apps からアップロードする添付ファイルの中身を読み込むため、一時的にアップロードしたファイルをエクセル ファイルとして SharePoint 上へ配置します。そのためのアクションとして、SharePoint コネクタの「Create file」を選択します。
+
+![Dataverse name](Images/42.png)
+
+Site Address にはドロップダウンより自身の SharePoint の URL を、Folder Path にはフォルダのアイコンから Shared Documents を選択しました。
+
+![Dataverse name](Images/43.png)
+![Dataverse name](Images/44.png)
+
+このファイルは Dataverse for Teams へエクスポートするために生成される一時的なもののため、命名はユニークでさえあれば良いため時間を設定します。「Add dynamic content」より「utcnow」と検索すると候補に「utcNow」が出てくるので、選択します。
+
+![Dataverse name](Images/45.png)
+![Dataverse name](Images/46.png)
+
+エクセル ファイルを生成したいので、「File Name」にエクセル ファイルの拡張子「.xlsx」を追加します。
+
+![Dataverse name](Images/47.png)
+
+「File Content」には、先程画像コントロールを媒介として取り出した Datauri 型のデータをバイナリデータへ戻し、エクセル ファイルとするため「dataUriToBinary」を選択します。
+
+また、「dataUriToBinary」には、「Dynamic content」から得られる「Createfile_FileContent」を設定します。
+
+![Dataverse name](Images/48.png)
+![Dataverse name](Images/48_1.png)
+![Dataverse name](Images/48_2.gif)
+
+次のステップでは、テーブルを獲得します。Excel Online のコネクタより「Get tables」を指定します。
+
+![Dataverse name](Images/49.png)
+
+「Location」にはドロップダウンより「Group - < SharePoint 名>」を、「Document Library」には「Documents」を、「File」には「Add dynamic content」より SharePoint の「Id」を設定します。
+
+![Dataverse name](Images/49_1.png)
+![Dataverse name](Images/49_2.png)
+![Dataverse name](Images/49_3.png)
+<!-- 
 ![Dataverse name](Images/10.png)
 ![Dataverse name](Images/11.png)
 ![Dataverse name](Images/12.png)
@@ -200,4 +242,5 @@ Datauri 型のデータを取り出すために媒介とする画像コントロ
 ![Dataverse name](Images/16.png)
 ![Dataverse name](Images/17.png)
 ![Dataverse name](Images/18.png)
-![Dataverse name](Images/19.png) -->
+![Dataverse name](Images/19.png)
+ -->
