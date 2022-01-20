@@ -1,28 +1,28 @@
-# ローカルで選択したエクセルのテーブル内にあるレコードを Dataverse for Teams へ追加する Power Apps アプリケーションの作成 
+# ローカル PC にある Excelファイルをファイル選択ダイアログで指定し、Excel ファイルのテーブル内にあるレコードを Dataverse for Teams へ追加する Power Apps アプリケーションの作成 
 
 ## このドキュメントの内容
-エクセル ファイルにあるテーブルのレコードを、既存の Dataverse for Teams へ追加する Power Apps アプリケーションの作成手順 (非公式) です。
+Excel ファイル内のテーブルのレコードを、既存の Dataverse for Teams へ追加する Power Apps アプリケーションの作成手順 (非公式) です。 Excel ファイルはローカル PC 上にあるものをファイル選択ダイアログで指定することができるようにしています。 
 
 Power Apps の知見がなくとも実装出来るようスクリーンショットを盛りに盛っています。
 
 ## 前提
-- <font color="Red">ローカルで選択するエクセル ファイルがテーブルを持っている事</font>
-- Microsoft 365 のライセンスを持っている事
-- 追加コストを抑えるべく Microsoft 365 ライセンスのみで実現させたい都合上、Dataverse for Teams を使用する事
-- macOS を使用している都合上、スクリーンショットは macOS のものとなる事 (他 OS も Power Apps がサポートされている OS やブラウザをご利用の場合は同手順で実現可能と思われます。)
+- <font color="Red">使用する Excel ファイルがテーブルを持っている事</font>
+- Teams を使用できる権利を含む Microsoft 365 のライセンスを持っている事
+- 追加コストを抑えるべく Microsoft 365 ライセンスのみで実現させたい都合上、Dataverse for Teams を使用します
+- macOS を使用している都合上、スクリーンショットは macOS のものです。 (他 OS も Power Apps がサポートされている OS やブラウザをご利用の場合は同手順で実現可能と思われます。)
 
 ## 実装するアプリケーションの動作
-1. [Power Apps] ボタンクリックにより添付ファイル コントロールを動作させ、ファイル ブラウザを起動
-2. [Power Apps] 画像コントロールを媒介としてエクセル ファイルを Datauri 型のデータへ変換
-3. [Power Automate] Datauri 型のデータをエクセル ファイルへ復元、テーブルを取得
+1. [Power Apps] ボタンクリックにより添付ファイル コントロールのファイル選択ダイアログを起動
+2. [Power Apps] 画像コントロールを媒介として Excel ファイルを Datauri 型のデータへ変換
+3. [Power Automate] Datauri 型のデータを Excel ファイルに復元、テーブルを取得
 4. [Power Automate] テーブルの内容を Dataverse for Teams へ追加
 
 ## 実装
 以下実装内容です。
 
-## 0. Dataverse for Teams へアップロード出来るようなエクセル ファイルと Dataverse の準備
-### 0.1 エクセル ファイルの準備
-まず初めに、Dataverse for Teams へ追加するデータの元となるエクセル ファイルを準備します。
+## 0. Dataverse for Teams へアップロードする Excel ファイルと Dataverse の準備
+### 0.1 Excel ファイルの準備
+まず初めに、Dataverse for Teams へ追加するデータの元となる Excel ファイルを準備します。
 
 > Power Automate のフローを設定する際、どこからどこまでのデータを Dataverse for Teams へ追加するかを指定するためにテーブルを設定します。
 
@@ -45,7 +45,7 @@ Power Apps の知見がなくとも実装出来るようスクリーンショッ
 
 ![ダイアログ](Images/03.png)
 
-エクセルのテーブルとなりました。
+Excelのテーブルとなりました。
 
 ![テーブル完成](Images/04.png)
 
@@ -53,7 +53,7 @@ Power Apps の知見がなくとも実装出来るようスクリーンショッ
 
 ![テーブルの命名](Images/05.png)
 
-エクセル ファイルの中にテーブルを用意できました。
+Excel ファイルの中にテーブルを用意できました。
 
 SharePoint 上に `ExportDataToDataverseForTeamsFromExcelFileViaPowerApps` というフォルダを作成し、そこに保存しておきます。
 
@@ -79,7 +79,7 @@ Power Apps の一覧画面が表示されます。Power Apps でアプリケー�
 
 ![一覧](Images/08.png)
 
-Dataverse for Teams を作成するために、Power Apps アプリケーションを作成します。今回はコンピューターからのファイル アップロードを想定しているので、「Tablet form factor」を選択しました。
+Dataverse for Teams を作成するために、Power Apps アプリケーションを作成します。今回はローカル PC からのファイル アップロードを想定しているので、横長の画面である「Tablet form factor」を選択しました。
 
 ![作成](Images/09.png)
 
@@ -95,11 +95,11 @@ Dataverse for Teams を設定するためには、開始した画面の「With d
 
 ![Image](Images/12.png)
 
-`TravelRequest` と言う名前の Dataverse for Teams が設定されました。データを編集できる画面になります。<font color="Red">0.1 でエクセル ファイルに指定した項目 (Title, Requester, Date, Details, Status)</font> と、例としてその項目に対するレコードを追加して「Close」を押すと次のようになります。
+`TravelRequest` と言う名前の Dataverse for Teams が設定されました。データを編集できる画面になります。<font color="Red">0.1 で Excel ファイルに指定した項目 (Title, Requester, Date, Details, Status)</font> と、例としてその項目に対するレコードを追加して「Close」を押すと次のようになります。
 
 ![Image](Images/13.png)
 
-## 1. [Power Apps] ボタンクリックにより添付ファイル コントロールを動作させ、ファイル ブラウザを起動
+## 1. [Power Apps] ボタンクリックにより添付ファイル コントロールのファイル選択ダイアログを起動
 Power Apps アプリケーションに添付ファイルをアップロードさせる機能を作成します。
 
 左ペインには `RightContainer1` があると思います。今回は 1 レコードに対するデータ項目が少ないので、この画面で簡潔させるべく `RightContainer1` をクリックし、下幅を狭めてボタンを追加するスペースを用意します。
@@ -173,7 +173,7 @@ Edit form より無理やり添付ファイル コントロールを取り出し
 
 ![Image](Images/35.png)
 
-## 2. [Power Apps] 画像コントロールを媒介としてエクセル ファイルを Datauri 型のデータへ変換
+## 2. [Power Apps] 画像コントロールを媒介として Excel ファイルを Datauri 型のデータへ変換
 
 Datauri 型のデータを取り出すために媒介とする画像コントロールを設定します。デフォルトでは `Image1` となりました。
 
@@ -194,7 +194,7 @@ Datauri 型のデータを取り出すために媒介とする画像コントロ
 
 ![Image](Images/35_3.png)
 
-## 3. [Power Automate] Datauri 型のデータをエクセル ファイルへ復元、テーブルを取得 - WIP
+## 3. [Power Automate] Datauri 型のデータを Excel ファイルに復元、テーブルを取得
 ### 3.1 トリガーの作成
 
 上記 2. にて添付したファイルを Power Automate により処理するため、Teams の Power Apps タブ (タブがない場合は検索) より New -> Cloud flow -> Instant よりクラウド フローを作成します。
@@ -207,7 +207,7 @@ Datauri 型のデータを取り出すために媒介とする画像コントロ
 ![Image](Images/41.png)
 
 ### 3.2 SharePoint に一時ファイルの作成
-今回は Dataverse for Teams へテーブル内のデータを追加する事がゴールではありますが、一度 Power Apps からアップロードする添付ファイルの中身を読み込むため、一時的にアップロードしたファイルをエクセル ファイルとして SharePoint 上へ配置します。そのためのアクションとして、SharePoint コネクタの「Create file」を選択します。
+今回は Dataverse for Teams へテーブル内のデータを追加する事がゴールではありますが、一度 Power Apps からアップロードする添付ファイルの中身を読み込むため、一時的にアップロードしたファイルをExcel ファイルとして SharePoint 上へ配置します。そのためのアクションとして、SharePoint コネクタの「Create file」を選択します。
 
 ![Image](Images/42.png)
 
@@ -222,11 +222,11 @@ Site Address にはドロップダウンより自身の SharePoint の URL を�
 ![Image](Images/45.png)
 ![Image](Images/46.png)
 
-エクセル ファイルを生成したいので、「File Name」にエクセル ファイルの拡張子「.xlsx」を追加します。
+Excel ファイルを生成したいので、「File Name」に Excel ファイルの拡張子「.xlsx」を追加します。
 
 ![Image](Images/47.png)
 
-「File Content」には、先程画像コントロールを媒介として取り出した Datauri 型のデータをバイナリデータへ戻し、エクセル ファイルとするため「dataUriToBinary」を選択します。
+「File Content」には、先程画像コントロールを媒介として取り出した Datauri 型のデータをバイナリデータへ戻し、Excel ファイルとするため「dataUriToBinary」を選択します。
 
 また、「dataUriToBinary」には、「Dynamic content」から得られる「Createfile_FileContent」を設定します。
 
@@ -234,7 +234,7 @@ Site Address にはドロップダウンより自身の SharePoint の URL を�
 ![Image](Images/48_1.png)
 ![Image](Images/48_2.gif)
 
-これにより、添付ファイルとしてアップロードされたエクセル ファイルを SharePoint 上へ保存するまでのフローができました。
+これにより、添付ファイルとしてアップロードされた Excel ファイルを SharePoint 上へ保存するまでのフローができました。
 
 ### 3.3 ファイルからテーブルを獲得する
 次のステップでは、テーブルを獲得します。Excel Online のコネクタより「Get tables」を指定します。
@@ -260,7 +260,7 @@ https://docs.microsoft.com/ja-jp/connectors/excelonlinebusiness/#%E3%83%86%E3%83
 
 「*Select an output from previous steps」には、「Add dynamic content」より Excel Online の「Value」を選択します。
 
-これにより、次の処理に「Apply to each」により取り出されたテーブルの配列の要素 (つまりエクセル ファイルより取り出したテーブルそのもの) を渡す事ができます。
+これにより、次の処理に「Apply to each」により取り出されたテーブルの配列の要素 (つまり Excel ファイルより取り出したテーブルそのもの) を渡す事ができます。
 
 ![Image](Images/51.png)
 
@@ -314,7 +314,7 @@ https://docs.microsoft.com/ja-jp/connectors/excelonlinebusiness/#%E3%83%86%E3%83
 ![Image](Images/58.png)
 ![Image](Images/59.png)
 
-> ❗️ここから、`TravelRequest` に作成した列とエクセル ファイル内のレコードの対応づけを行うため、これまでに作成した正しいフローを一時的に変更します。
+> ❗️ここから、`TravelRequest` に作成した列と Excel ファイル内のレコードの対応づけを行うため、これまでに作成した正しいフローを一時的に変更します。
 
 「List rows present in table」の「File」に指定した SharePoint の「ID」を削除します。
  
@@ -378,3 +378,9 @@ Flow_ExportToDataverseForTeams.Run(Substitute(varUploadedFileContent,"""",""));`
 本ドキュメントが何かの役に立てば幸いです。
 
 Toxumuharu
+
+## 参考文献
+- https://mofumofupower.hatenablog.com/entry/2020/12/03/100000
+
+## Special thanks
+- 私が所属しているカイシャの先輩 N さん
